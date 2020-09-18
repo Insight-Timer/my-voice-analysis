@@ -1,15 +1,6 @@
+# My Voice Analysis
 
-## myspsolution.praat has been revised please upload the new version on the master branch, my-voice-analysis setup.py and __ini__.py have been revised too. my-voice-analysis PYPI also has been upgraded. March 2019
-
-## *myprosody package includes all my-voice-analysis' functions plus new functions which you might consider to use instead. The latest myproody update is available here, in Github as well as PYPI, the python library.*  
-
-## NOTE:
-    1- 1- Both My-Voice-Analysis and Myprosody work on Python 3.7 
-    2- If you install My-Voice-Analysis through PyPi, please use: 
-          mysp=__import__("my-voice-analysis") instead of import myspsolution as mysp
-    3- It it better to keep the folder names as single entities for instance "Name_Folder" or "NameFolder" without space in the dirctoy path
-
-# my-voice-analysis
+> IMPORTANT: This is a forked version of my-voice-analysis package, see [here the original version](https://github.com/Shahabks/my-voice-analysis). The goal is to provides cleaner and better api for developers. But all credits are belongs to the original author.
 
 My-Voice Analysis is a Python library for the analysis of voice (simultaneous speech, high entropy) without the need of a transcription. It breaks utterances and detects syllable boundaries, fundamental frequency contours, and formants. Its built-in functions recognise and measures 
 
@@ -23,215 +14,98 @@ My-Voice Analysis is a Python library for the analysis of voice (simultaneous sp
 
 The library was developed based upon the idea introduced by Nivja DeJong and Ton Wempe [1], Paul Boersma and David Weenink [2], Carlo Gussenhoven [3], S.M Witt and S.J. Young [4] and Yannick Jadoul [5]. Peaks in intensity (dB) that are preceded and followed by dips in intensity are considered as potential syllable cores. 
 My-Voice Analysis is unique in its aim to provide a complete quantitative and analytical way to study acoustic features of a speech. Moreover, those features could be analysed further by employing Python’s functionality to provide more fascinating insights into speech patterns. 
+
 This library is for Linguists, scientists, developers, speech and language therapy clinics and researchers.   
+
 Please note that My-Voice Analysis is currently in initial state though in active development. While the amount of functionality that is currently present is not huge, more will be added over the next few months.
 
 ## Installation
 
-my-voice-analysis can be installed like any other Python library, using (a recent version of) the Python package manager pip, on Linux, macOS, and Windows:
+This package doesn't available through PyPi, please install it directly via git:
 
-                                        pip install my-voice-analysis
-
-or, to update your installed version to the latest release:
-
-                                         pip install -u my-voice-analysis
+```
+pip install --upgrade git+git://github.com/Insight-Timer/my-voice-analysis.git
+```
 
 ## NOTE: 
 
-After installing My-Voice-Analysis, copy the file myspsolution.praat from
-
-                                          https://github.com/Shahabks/my-voice-analysis  
-
-and save in the directory where you will save audio files for analysis.
-
-Audio files must be in *.wav format, recorded at 44 kHz sample frame and 16 bits of resolution.  
+Audio files must be in WAV format, recorded at 44kHz sample frame and 16 bits of resolution.  
 
 ## Example usage
 
-Gender recognition and mood of speech: Function myspgend(p,c)
+```
+>>> from my_voice_analysis import Analyser
+>>> a = Analyser()
+>>> a.start('/tmp/output.wav')
+>>> a.result()
+{'num_syllables': 1982, 'num_pauses': 244, 'speech_rate': 2, 'articulation_rate': 4, 'speaking_duration_no_pauses': 557.1, 'speaking_duration_with_pauses': 853.5, 'speaking_ratio': 0.7, 'f0_mean': 181.13, 'f0_std': 43.87, 'f0_median': 189.9, 'f0_min': 70.0, 'f0_max': 394.0, 'f0_quantile25': 172.0, 'f0_quantile75': 206.0}
+```
 
-                    [in]  import myspsolution as mysp
-                         
-                         p="Walkers" # Audio File title
-                         c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                         mysp.myspgend(p,c)
-                    
-                    [out] a female, mood of speech: Reading, p-value/sample size= :0.00 5
+**Gender recognition and mood of speech:**
+```
+>>> a.gender_mood()
+('female', 'no_emotion', 4.450885724080103e-147)
+```
 
-Pronunciation posteriori probability score percentage: Function mysppron(p,c)
+**Pronunciation posteriori probability score percentage:**
+```
+>>> a.ppp_score_percentage()
+70.185
+```
 
-                    [in]   import myspsolution as mysp
+**Detect and count number of syllables:**
+```
+>>> a.num_syllables()
+1982
+```
 
-                           p="Walkers" # Audio File title
-                           c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                           mysp.mysppron(p,c)
-                           
-                   [out]   Pronunciation_posteriori_probability_score_percentage= :85.00
+**Detect and count number of fillers and pauses:**
+```
+>>> a.num_pauses()
+244
+```
 
-Detect and count number of syllables: Function myspsyl(p,c)
+**Measure the rate of speech (speed):**
+```
+>>> a.speech_rate()
+2
+```
 
-                     [in]   import myspsolution as mysp
+**Measure the articulation (speed):**
+```
+>>> a.articulation_rate()
+4
+```
 
-                            p="Walkers" # Audio File title
-                            c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                            mysp.myspsyl(p,c)
-                            
-                    [out]   number_ of_syllables= 154
+**Measure speaking time (excluding fillers and pause):**
+```
+>>> a.speaking_duration_no_pauses()
+557.1
+```
 
-Detect and count number of fillers and pauses: Function mysppaus(p,c)
+**Measure total speaking duration (including fillers and pauses):**
+```
+>>> a.speaking_duration_with_pauses()
+853.5
+```
 
-                     [in]   import myspsolution as mysp
+**Measure ratio between speaking duration and total speaking duration:**
+```
+>>> a.speaking_ratio()
+0.7
+```
 
-                            p="Walkers" # Audio File title
-                            c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                            mysp.mysppaus(p,c)
-                            
-                    [out]   number_of_pauses= 22
+**Measure fundamental frequency distribution**:
+```
+>>> a.f0_values()
+{'mean': 181.13, 'std': 43.87, 'med': 189.9, 'min': 70.0, 'max': 394.0, 'q25': 172.0, 'q75': 206.0}
+```
 
-Measure the rate of speech (speed): Function myspsr(p,c)
-
-                    [in]   import myspsolution as mysp
-
-                            p="Walkers" # Audio File title
-                            c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                            mysp.myspsr(p,c)
-                    
-                    [out]   rate_of_speech= 3 # syllables/sec original duration
-
-Measure the articulation (speed): Function myspatc(p,c)
-
-                     [in]   import myspsolution as mysp
-
-                            p="Walkers" # Audio File title
-                            c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                            mysp.myspatc(p,c)
-                            
-                    [out]  articulation_rate= 5 # syllables/sec speaking duration
-
-Measure speaking time (excl. fillers and pause): Function myspst(p,c)
-
-                     [in]   import myspsolution as mysp
-
-                            p="Walkers" # Audio File title
-                            c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                            mysp.myspst(p,c)
-               
-                    [out]   speaking_duration= 31.6 # sec only speaking duration without pauses
-
-Measure total speaking duration (inc. fillers and pauses): Function myspod(p,c)
-
-                     [in]   import myspsolution as mysp
-
-                            p="Walkers" # Audio File title
-                            c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                            mysp.myspod(p,c)
-                            
-                    [out]   original_duration= 49.2 # sec total speaking duration with pauses
-
-Measure ratio between speaking duration and total speaking duration: Function myspbala(p,c)
-
-                     [in]   import myspsolution as mysp
-
-                            p="Walkers" # Audio File title
-                            c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                            mysp.myspbala(p,c)
-
-                    [out]   balance= 0.6 # ratio (speaking duration)/(original duration)
-
-Measure fundamental frequency distribution mean: Function myspf0mean(p,c)
-
-                     [in]   import myspsolution as mysp
-
-                            p="Walkers" # Audio File title
-                            c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                            mysp.myspf0mean(p,c)
-
-                     [out]  f0_mean= 212.45 # Hz global mean of fundamental frequency distribution
-
-Measure fundamental frequency distribution SD: Function myspf0sd(p,c)
-
-                      [in]   import myspsolution as mysp
-
-                            p="Walkers" # Audio File title
-                            c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                            mysp.myspf0sd(p,c)
-
-                     [out]  f0_SD= 57.85 # Hz global standard deviation of fundamental frequency distribution
-
-Measure fundamental frequency distribution median: Function myspf0med(p,c)
-
-                      [in]   import myspsolution as mysp
-
-                            p="Walkers" # Audio File title
-                            c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                            mysp.myspf0med(p,c)
-
-                     [out]  f0_MD= 205.7 # Hz global median of fundamental frequency distribution
-
-Measure fundamental frequency distribution minimum: Function myspf0min(p,c)
-
-                      [in]   import myspsolution as mysp
-
-                            p="Walkers" # Audio File title
-                            c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                            mysp.myspf0min(p,c)
-
-                     [out]  f0_min= 77 # Hz global minimum of fundamental frequency distribution
-
-Measure fundamental frequency distribution maximum: Function myspf0max(p,c)
-
-                      [in]   import myspsolution as mysp
-
-                             p="Walkers" # Audio File title
-                             c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                             mysp.myspf0max(p,c)
-
-                      [out] f0_max= 414 # Hz global maximum of fundamental frequency distribution
-
-Measure 25th quantile fundamental frequency distribution: Function myspf0q25(p,c)
-
-                       [in]   import myspsolution as mysp
-
-                              p="Walkers" # Audio File title
-                              c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                              mysp.myspf0q25(p,c)
-
-                       [out]  f0_quan25= 171 # Hz global 25th quantile of fundamental frequency distribution
-
-Measure 75th quantile fundamental frequency distribution: Function myspf0q75(p,c)
-
-                        [in]   import myspsolution as mysp
-
-                               p="Walkers" # Audio File title
-                               c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-                               mysp.myspf0q75(p,c)
-
-                        [out]  f0_quan75= 244 # Hz global 75th quantile of fundamental frequency distribution
-
-Overview: Function mysptotal(p,c)
-
-                         [in]   import myspsolution as mysp
-
-                               p="Walkers" # Audio File title
-                               c=r"C:\Users\Shahab\Desktop\Mysp" # Path to the Audio_File directory (Python 3.7)
-
-                               mysp.mysptotal(p,c)
-
-                        [out]  number_ of_syllables     154
-                               number_of_pauses          22
-                               rate_of_speech             3
-                               articulation_rate          5
-                               speaking_duration       31.6
-                               original_duration       49.2
-                               balance                  0.6
-                               f0_mean               212.45
-                               f0_std                 57.85
-                               f0_median              205.7
-                               f0_min                    77
-                               f0_max                   414
-                               f0_quantile25            171
-                               f0_quan75                244
-
+## Praat file
+By default when you initialise the `Analyser` class, it using the original `myspsolution.praat` by default. If you want to provides your own `praat` file, pass the file path during initialisation.
+```
+a = Analyser('/path/to/file.praat')
+```
 
 ## Development
 
@@ -247,10 +121,14 @@ My-Voice-Analysis was developed by Sab-AI Lab in Japan (previously called Mysolu
    71, 1-15. https://doi.org/10.1016/j.wocn.2018.07.001 (https://parselmouth.readthedocs.io/en/latest/)
 6. Projects https://parselmouth.readthedocs.io/en/docs/examples.html
 
- ### MIT License
-                                                       
-•	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-•	The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-•	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ ## MIT License
+ 
+ ```
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
 
 
