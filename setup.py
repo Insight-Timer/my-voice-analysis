@@ -1,6 +1,6 @@
 from setuptools import setup
 
-long_description="""## the new revision has got a new script and bugs fixed ## 
+long_description = """## the new revision has got a new script and bugs fixed ## 
 
 My-Voice-Analysis is a Python library for the analysis of voice (simultaneous speech, high entropy) 
 without the need of a transcription. It breaks utterances and detects syllable boundaries, fundamental 
@@ -58,29 +58,28 @@ Recognition and Analysis Project in MYSOLUTION Lab. That is planned to rich the 
 My-Voice Analysis by adding more advanced functions.
 
 ---------https://shahabks.github.io/Mysolution-Lab-AI/ """
-	
-	
-setup(name='my-voice-analysis',
+
+
+setup(name='my_voice_analysis',
       version='0.7',
       description='the analysis of voice (simultaneous speech) without the need of a transcription',
-	  long_description=long_description,
-	  url='https://github.com/Shahabks/my-voice-analysis',
+      long_description=long_description,
+      url='https://github.com/Shahabks/my-voice-analysis',
       author='Shahab Sabahi',
       author_email='sabahi.s@mysol-gc.jp',
       license='MIT',
       classifiers=[
-		'Intended Audience :: Developers',
-		'Intended Audience :: Science/Research',
-		'Programming Language :: Python',
-		'Programming Language :: Python :: 3.7',
-		],
-	  keywords='praat speech signal processing phonetics',
-	  install_requires=[
-		'numpy>=1.15.2',
-		'praat-parselmouth>=0.3.2',
-		'pandas>=0.23.4',
-		'scipy>=1.1.0',
-		],
-	  packages=['my-voice-analysis'],
+          'Intended Audience :: Developers',
+          'Intended Audience :: Science/Research',
+          'Programming Language :: Python',
+          'Programming Language :: Python :: 3.7',
+      ],
+      keywords='praat speech signal processing phonetics',
+      install_requires=[
+          'numpy>=1.15.2',
+          'praat-parselmouth>=0.3.2',
+          'scipy>=1.1.0',
+      ],
+      packages=['my_voice_analysis'],
+      include_package_data=True,
       zip_safe=False)
-	  

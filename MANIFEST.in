@@ -1,0 +1,3 @@
+include my_voice_analysis/myspsolution.praat
+include README.md
+include LICENSE
