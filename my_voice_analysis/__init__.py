@@ -9,8 +9,9 @@ class Analyser:
     A class to perform voice analysis to audio file.
     Usage:
     from my_voice_analysis import Analyser
-    a = Analyser('/path/to/praat-file.praat')
-    total = a.total('/path/to/audio.wav')
+    a = Analyser()
+    a.start('/tmp/audio.wav')
+    a.result()
     """
 
     GENDER_MALE = 'male'
