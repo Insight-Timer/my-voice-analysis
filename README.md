@@ -1,6 +1,6 @@
 # My Voice Analysis
 
-> IMPORTANT: This is a forked version of my-voice-analysis package, see [here the original version](https://github.com/Shahabks/my-voice-analysis). The goal is to provides cleaner and better api for developers. But all credits are belongs to the original author.
+> IMPORTANT: This is a forked version of my-voice-analysis package, see [here the original version](https://github.com/Shahabks/my-voice-analysis). The goal is to provides cleaner and better api for developers. But all credits are belongs to the [original author](https://github.com/Shahabks).
 
 My-Voice Analysis is a Python library for the analysis of voice (simultaneous speech, high entropy) without the need of a transcription. It breaks utterances and detects syllable boundaries, fundamental frequency contours, and formants. Its built-in functions recognise and measures 
 
