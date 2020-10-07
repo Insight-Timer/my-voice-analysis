@@ -24,7 +24,7 @@ Please note that My-Voice Analysis is currently in initial state though in activ
 This package doesn't available through PyPi, please install it directly via git:
 
 ```
-pip install --upgrade git+git://github.com/Insight-Timer/my-voice-analysis.git
+pip install https://github.com/ekaputra07/my-voice-analysis/archive/master.zip
 ```
 
 ## NOTE: 
